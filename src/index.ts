@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import placesRoute from "./routes/places.route";
 import userRoute from "./routes/user.route";
 import authRoute from "./routes/auth.route";
+import { pool } from "./config/database";
 
 // Configuración del servidor
 const app: Application = express();
@@ -21,7 +22,19 @@ app.use("/api/places", placesRoute);
 // Ruta pública para iniciar sesión y registrarse
 app.use("/api/auth", authRoute);
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor levantado en el puerto ${port}`);
-});
+const main = async() => {
+  try {
+    const { rows } = await pool.query('SELECT NOW()');
+    console.log(rows[0].now, 'db conectada');
+    // Iniciar el servidor una vez que se verifica la conexion a la bd
+    app.listen(port, () => {
+      console.log(`Servidor levantado en el puerto ${port}`);
+    });
+  }
+  catch (error){
+    console.log(error);
+  }
+}
+
+main();
+
