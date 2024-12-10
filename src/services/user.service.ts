@@ -1,18 +1,13 @@
 import { nanoid } from "nanoid";
-import { userModel } from "../models/user.model";
+import { User } from "../interfaces/user.interface";
+import { UserModel } from "../models/user.model";
 import bcrypt from "bcryptjs";
 
-// Definición de la interfaz para el usuario
-interface User {
-  id: string;
-  email: string;
-  password: string;
-}
 
 // Obtener todos los usuarios
-const getAllUsers = async (): Promise<User[]> => {
-  const users = await userModel.readUsers();
-  return users as User[]; // Aseguramos el tipo esperado
+const getAllUsers = async () => {
+  const allUsers = await UserModel.findAll();
+  return allUsers;
 };
 
 // Crear un usuario con email y contraseña
@@ -20,10 +15,9 @@ const createUserWithEmailAndPassword = async (
   email: string,
   password: string
 ): Promise<User> => {
-  const users = await getAllUsers();
-  const userExist = users.find((item) => item.email === email);
+  const user = await UserModel.getByEmail(email);
 
-  if (userExist) {
+  if (user) {
     throw new Error("User already exists");
   }
 
@@ -31,16 +25,9 @@ const createUserWithEmailAndPassword = async (
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  // Crear un nuevo usuario
-  const newUser: User = {
-    id: nanoid(),
-    email,
-    password: hashedPassword,
-  };
 
-  // Agregar el nuevo usuario al JSON
-  users.push(newUser);
-  await userModel.writeUsers(users);
+  // Agregar el nuevo usuario a la Base de datos
+  const newUser = await UserModel.create(email, hashedPassword);
   return newUser;
 };
 
