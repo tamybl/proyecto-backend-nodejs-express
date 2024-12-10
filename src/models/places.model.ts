@@ -1,22 +1,31 @@
-import { readFile } from "node:fs/promises";
-import path from "node:path";
 
-const __dirname = path.resolve();
+import { pool } from '../config/database';
+import { Place as IPlace } from '../interfaces/place.interface'
 
-const pathFile = path.join(__dirname, "src/data/places.json");
+const getById = async(id:number) => {
+    const query = {
+        text: `
+        SELECT * FROM PLACES
+        WHERE id = $1
+        `,
+        values: [id]
+    }
+    const { rows } = await pool.query(query);
+    if (!rows[0]) {
+      throw new Error("Place doesn't exist");
+    }
+    return rows[0] as IPlace;
+}
 
-// Lectura de datos
-const readPlaces = async () => {
-  try {
-    const data = await readFile(pathFile, "utf-8");
-    const places = JSON.parse(data);
-    return places;
-  } catch (error) {
-    console.error("Error leyendo el archivo places.json:", error);
-    throw new Error("No se pudo leer la base de datos de places");
-  }
-};
+const readAll = async() => {
+    const query = {
+        text: "SELECT * FROM PLACES"
+    }
+    const { rows } = await pool.query(query);
+    return rows as IPlace[];
+}
 
 export const placesModel = {
-  readPlaces,
+  getById,
+  readAll,
 };

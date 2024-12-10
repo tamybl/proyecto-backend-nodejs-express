@@ -7,5 +7,7 @@ const router = Router();
 
 // Lee todos los lugares turisticos
 router.get("/", placesController.getPlaces);
+// Lee un lugar en base al id
+router.get("/:id", placesController.getPlaceById);
 
 export default router;
