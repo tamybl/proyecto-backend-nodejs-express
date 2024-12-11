@@ -19,6 +19,9 @@ app.use("/api/users", userRoute);
 // Ruta pública de lugares
 app.use("/api/places", placesRoute);
 
+// Ruta publica places por ID
+app.use("/api/places/:id", placesRoute);
+
 // Ruta pública para iniciar sesión y registrarse
 app.use("/api/auth", authRoute);
 
@@ -37,4 +40,6 @@ const main = async() => {
 }
 
 main();
+
+export default app;
 
