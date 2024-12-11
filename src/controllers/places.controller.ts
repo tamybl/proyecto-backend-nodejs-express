@@ -4,7 +4,7 @@ import { placesService } from "../services/places.service";
 const getPlaces = async (req: Request, res: Response): Promise<void> => {
   try {
     const places = await placesService.getAllPlaces();
-    res.json({ places });
+    res.status(200).json(places);
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
