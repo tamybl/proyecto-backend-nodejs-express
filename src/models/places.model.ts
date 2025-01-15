@@ -1,31 +1,36 @@
 
-import { pool } from '../config/database';
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { Place as IPlace } from '../interfaces/place.interface'
 
-const getById = async(id:number) => {
-    const query = {
-        text: `
-        SELECT * FROM PLACES
-        WHERE id = $1
-        `,
-        values: [id]
-    }
-    const { rows } = await pool.query(query);
-    if (!rows[0]) {
-      throw new Error("Place doesn't exist");
-    }
-    return rows[0] as IPlace;
-}
+export class Place extends Model<IPlace> implements IPlace {
+  declare public id: number;
+  public name!: string;
+  public country!: string;
+  public description!: string;
+  public image!: string;
+} 
 
-const readAll = async() => {
-    const query = {
-        text: "SELECT * FROM PLACES"
-    }
-    const { rows } = await pool.query(query);
-    return rows as IPlace[];
-}
-
-export const placesModel = {
-  getById,
-  readAll,
-};
+// Funcion para inicializar el modelo
+export const placesModel = () => Place.init({
+  id: { // Columna ID   
+    type: DataType.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  name: {
+    type: DataType.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: DataType.STRING,
+  },
+  country: {
+    type: DataType.STRING,
+  },
+  image: {
+    type: DataType.STRING,
+  },
+}, {
+  tableName: 'places',
+  sequelize: require('../config/database'),
+});
