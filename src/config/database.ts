@@ -11,7 +11,7 @@ const sequelize = new Sequelize({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     logging: false, // Desactiva logs de SQL para reducir ruido
-    models: [__dirname + '/../models'], // Ruta a los modelos
+    //models: [__dirname + '/../models'], // Ruta a los modelos
 });
 
 // Verificar conexión

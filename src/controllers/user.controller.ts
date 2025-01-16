@@ -4,10 +4,6 @@ import { userService } from "../services/user.service";
 const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const users = await userService.getAllUsers();
-    /*res.json({
-      email: (req as any).email, 
-      users,
-    });*/
     res.json(users);
   } catch (error) {
     console.error(error);

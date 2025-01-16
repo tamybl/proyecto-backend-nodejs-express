@@ -1,42 +1,28 @@
-import { pool } from '../config/database';
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { User as IUser } from '../interfaces/user.interface'
 
-const getByEmail = async(email:string) => {
-    const query = {
-        text: `
-        SELECT * FROM USERS
-        WHERE email = $1
-        `,
-        values: [email]
-    }
-    const { rows } = await pool.query(query);
-    console.log('user by email', rows[0])
-    return rows[0] as IUser;
+export class User extends Model<IUser> implements IUser {
+    declare public id: string;
+    public email!: string;
+    public password!: string;
 }
 
-const create = async(email: string, password: string) => {
-    const query = {
-        text: `
-        INSERT INTO USERS (email, password)
-        VALUES($1, $2)
-        RETURNING *
-        `,
-        values: [email, password]
-    }
-    const { rows } = await pool.query(query);
-    console.log('create user', rows[0])
-    return rows[0];
-}
-const findAll = async() => {
-    const query = {
-        text: "SELECT * FROM USERS"
-    }
-    const { rows } = await pool.query(query);
-    return rows as IUser[];
-}
-
-export const UserModel = {
-    create,
-    getByEmail,
-    findAll,
-}
+User.init({
+    id: {
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4,
+        primaryKey: true
+    },
+    email: {
+        type: DataType.STRING,
+        allowNull: false,
+        unique: true,
+    },
+    password: {
+        type: DataType.STRING,
+        allowNull: false,
+    },
+}, {
+    tableName: 'users',
+    sequelize: require('../config/database'),
+})

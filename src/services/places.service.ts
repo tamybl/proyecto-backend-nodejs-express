@@ -1,18 +1,17 @@
-import { placesModel } from "../models/places.model";
-import { Place } from "../interfaces/place.interface"
+import PlaceModel  from "../models/places.model";
+import { Place as PlaceI } from "../interfaces/place.interface"
 
-const getAllPlaces = async (): Promise<Place[]> => {
-  const places = await placesModel.readAll();
-  return places as Place[]; // Aseguramos el tipo esperado
+const getAllPlaces = async (): Promise<PlaceI[]> => {
+  const places = await PlaceModel.findAll();
+  return places as PlaceI[]; // Convertir a un array de objetos de tipo Place
 };
 
-const getPlaceById = async (id: number): Promise<Place> => {
-  const place = await placesModel.getById(id);
-
+const getPlaceById = async (id: number): Promise<PlaceI> => {
+  const place = await PlaceModel.findByPk(id);
   if (!place) {
     throw new Error("Place doesn't exists");
   }
-  return place as Place;
+  return place as PlaceI;
 };
 
 export const placesService = {
