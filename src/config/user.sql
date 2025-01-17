@@ -1,3 +1,4 @@
+-- Active: 1733871723777@@127.0.0.1@5432@db_trekly@public
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TABLE IF EXISTS users;

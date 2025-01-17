@@ -10,7 +10,7 @@ dotenv.config();
 
 // Configuración del servidor
 const app: Application = express();
-const port = process.env.DB_PORT || 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware para habilitar el request body
 app.use(express.json());
@@ -26,7 +26,7 @@ app.use("/api/places", placesRoute);
 // Ruta pública para iniciar sesión y registrarse
 app.use("/api/auth", authRoute);
 
-if (!process.env.DB_HOST || !process.env.DB_PORT || !process.env.DB_USERNAME || !process.env.DB_PASSWORD || !process.env.DB_NAME) {
+if (!process.env.DB_HOST || !process.env.PORT || !process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_NAME) {
   console.error('Faltan variables de entorno requeridas para la base de datos.');
   process.exit(1); // Finaliza el proceso si no están definidas
 }

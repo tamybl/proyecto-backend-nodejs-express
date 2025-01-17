@@ -1,9 +1,9 @@
 import { nanoid } from "nanoid";
 import bcrypt from "bcryptjs";
 import { User as UserI } from "../interfaces/user.interface";
-import { User as UserModel } from "../models/user.model";
+import User  from "../models/user.model";
 
-
+const UserModel = User;
 // Obtener todos los usuarios
 const getAllUsers = async () => {
   const allUsers = await UserModel.findAll();

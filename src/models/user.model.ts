@@ -1,28 +1,33 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { User as IUser } from '../interfaces/user.interface'
 
-export class User extends Model<IUser> implements IUser {
-    declare public id: string;
-    public email!: string;
-    public password!: string;
-}
-
-User.init({
-    id: {
+@Table({
+    tableName: 'users',
+    timestamps: false,
+})  
+export default class User extends Model<IUser> implements IUser {
+    @Column({
         type: DataType.UUID,
         defaultValue: DataType.UUIDV4,
-        primaryKey: true
-    },
-    email: {
+        primaryKey: true,
+    })
+    declare id: string;
+    @Column({
         type: DataType.STRING,
-        allowNull: false,
-        unique: true,
-    },
-    password: {
+        defaultValue: '',
+        allowNull: false,   
+    })
+    email: string;
+    @Column({
         type: DataType.STRING,
+        defaultValue: '',
         allowNull: false,
-    },
-}, {
-    tableName: 'users',
-    sequelize: require('../config/database'),
-})
+    })
+    password: string;
+    constructor() {
+        super();
+        this.id = '';
+        this.email = '';
+        this.password = '';
+    }
+}

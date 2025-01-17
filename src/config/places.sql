@@ -1,4 +1,4 @@
--- Active: 1733624620674@@127.0.0.1@5432@db_trekly@public
+-- Active: 1733871723777@@127.0.0.1@5432@db_trekly
 DROP TABLE IF EXISTS places;
 
 CREATE TABLE places (

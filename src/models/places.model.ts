@@ -4,7 +4,7 @@ import { Place as IPlace } from '../interfaces/place.interface';
 
 @Table({
   tableName: 'places', // Nombre de la tabla en la base de datos
-  timestamps: true,    // Incluye `createdAt` y `updatedAt`
+  timestamps: false,    // Incluye `createdAt` y `updatedAt`
 })
 export default class Place extends Model<IPlace> implements IPlace {
   @Column({
@@ -18,32 +18,25 @@ export default class Place extends Model<IPlace> implements IPlace {
     type: DataType.STRING,
     allowNull: false,
   })
-  name: string;
+  declare name: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: true,
   })
-  description: string;
+  declare description: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  country: string;
+  declare country: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: true,
   })
-  image: string;
+  declare image: string;
 
-  constructor() {
-    super();
-    this.id = 0; // Asignación predeterminada
-    this.name = '';
-    this.country = '';
-    this.description = '';
-    this.image = '';
-  }
+
 }
