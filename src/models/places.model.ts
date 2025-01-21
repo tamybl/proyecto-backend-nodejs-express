@@ -37,6 +37,4 @@ export default class Place extends Model<IPlace> implements IPlace {
     allowNull: true,
   })
   declare image: string;
-
-
 }
