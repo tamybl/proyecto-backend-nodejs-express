@@ -4,7 +4,7 @@ import { Place as IPlace } from '../interfaces/place.interface';
 
 @Table({
   tableName: 'places', // Nombre de la tabla en la base de datos
-  timestamps: false,    // Incluye `createdAt` y `updatedAt`
+  timestamps: false,    // No agregar campos `createdAt` y `updatedAt`
 })
 export default class Place extends Model<IPlace> implements IPlace {
   @Column({

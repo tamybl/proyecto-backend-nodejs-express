@@ -17,17 +17,11 @@ export default class User extends Model<IUser> implements IUser {
         defaultValue: '',
         allowNull: false,   
     })
-    email: string;
+    declare email: string;
     @Column({
         type: DataType.STRING,
         defaultValue: '',
         allowNull: false,
     })
-    password: string;
-    constructor() {
-        super();
-        this.id = '';
-        this.email = '';
-        this.password = '';
-    }
+    declare password: string;
 }

@@ -7,7 +7,7 @@ const router = Router();
 // path fijo: http://localhost:3000/api/users
 
 // Leer todos los usuarios
-router.get("/", /*verifyToken,*/ userController.getUsers);
+router.get("/", verifyToken, userController.getUsers);
 
 // Crear un usuario
 router.post("/", verifyToken, userController.createUser);
