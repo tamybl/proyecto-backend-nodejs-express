@@ -1,9 +1,10 @@
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid"; 
 import bcrypt from "bcryptjs";
 import { User as UserI } from "../interfaces/user.interface";
-import User  from "../models/user.model";
+import User from "../models/user.model";
 
 const UserModel = User;
+
 // Obtener todos los usuarios
 const getAllUsers = async () => {
   const allUsers = await UserModel.findAll();
@@ -15,7 +16,7 @@ const createUserWithEmailAndPassword = async (
   email: string,
   password: string
 ): Promise<UserI> => {
-  const existingUser = await UserModel.findOne({where: {email} });
+  const existingUser = await UserModel.findOne({ where: { email } });
 
   if (existingUser) {
     throw new Error("User already exists");
@@ -25,13 +26,12 @@ const createUserWithEmailAndPassword = async (
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-
-  // Agregar el nuevo usuario a la Base de datos
   const newUser = await UserModel.create({
-    id: nanoid(),
+    id: uuidv4(),
     email,
     password: hashedPassword,
   });
+
   return newUser.toJSON() as UserI;
 };
 

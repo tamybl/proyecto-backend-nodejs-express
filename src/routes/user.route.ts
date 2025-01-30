@@ -10,6 +10,6 @@ const router = Router();
 router.get("/", verifyToken, userController.getUsers);
 
 // Crear un usuario
-router.post("/", verifyToken, userController.createUser);
+router.post("/", userController.createUser);
 
 export default router;
