@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import placesRoute from "./routes/places.route";
 import userRoute from "./routes/user.route";
 import authRoute from "./routes/auth.route";
+import messageRoute from "./routes/message.route";
 import sequelize from "./config/database";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/users", userRoute);
 app.use("/api/places", placesRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/messages", messageRoute);
 
 // Validación de variables de entorno
 if (!process.env.DB_HOST || !process.env.PORT || !process.env.DB_USER || !process.env.DB_PASSWORD || !process.env.DB_NAME) {
