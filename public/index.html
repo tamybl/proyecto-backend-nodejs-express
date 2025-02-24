@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat en Tiempo Real</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        .form-margins {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat Socket.io</h1>
+    <div class="form-margins">
+        <label for="username">Nombre:</label>
+        <input id="username" type="text" placeholder="Ingresa tu nombre">
+    </div>
+    <div class="form-margins">
+        <label for="message">Mensaje:</label>
+        <input id="message" type="text" placeholder="Escribe tu mensaje...">
+    </div>
+    <div class="form-margins">
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+    
+    <ul id="chat"></ul>
+
+    <script>
+        const socket = io();
+        let username = "";
+
+        document.getElementById("username").addEventListener("change", (e) => {
+            username = e.target.value;
+        });
+
+        socket.on("chatMessage", (msg) => {
+            const li = document.createElement("li");
+            li.textContent = `${msg.username}: ${msg.text}`;
+            document.getElementById("chat").appendChild(li);
+        });
+
+        function sendMessage() {
+            const msg = document.getElementById("message").value;
+            if (username) {
+                socket.emit("chatMessage", msg, username);
+                document.getElementById("message").value = "";
+            } else {
+                alert("Por favor ingresa un nombre de usuario antes de enviar mensajes.");
+            }
+        }
+    </script>
+</body>
+</html>
